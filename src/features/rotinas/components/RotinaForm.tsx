@@ -1,8 +1,12 @@
 import { useEffect, useState, type FormEvent } from 'react'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import EmojiPicker, { type EmojiClickData } from 'emoji-picker-react'
-import { Smile, X } from 'lucide-react'
+import { CalendarIcon, Smile, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { toDateKey } from '@/lib/date'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { fromDateKey, toDateKey } from '@/lib/date'
 import { DIAS } from '../constants'
 import type { DiaSemana, RotinaInput } from '../types'
 
@@ -20,6 +24,7 @@ export default function RotinaForm({ initial, embedded = false, onSave, onCancel
     initial ?? { ...EMPTY, startDate: toDateKey(new Date()) }
   )
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false)
 
   useEffect(() => {
     setForm(initial ?? { ...EMPTY, startDate: toDateKey(new Date()) })
@@ -58,14 +63,31 @@ export default function RotinaForm({ initial, embedded = false, onSave, onCancel
             <label className="mb-1 block text-sm font-medium text-foreground" htmlFor="start-date">
               A rotina começa a valer em
             </label>
-            <input
-              id="start-date"
-              type="date"
-              value={form.startDate ?? toDateKey(new Date())}
-              onChange={(e) => setForm((current) => ({ ...current, startDate: e.target.value }))}
-              className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              required
-            />
+            <Popover open={showStartDatePicker} onOpenChange={setShowStartDatePicker}>
+              <PopoverTrigger asChild>
+                <Button
+                  id="start-date"
+                  variant="outline"
+                  className="justify-start text-left font-normal"
+                >
+                  <CalendarIcon size={16} />
+                  {form.startDate
+                    ? format(fromDateKey(form.startDate), 'PPP', { locale: ptBR })
+                    : 'Escolher data'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={form.startDate ? fromDateKey(form.startDate) : undefined}
+                  onSelect={(date) => {
+                    if (!date) return
+                    setForm((current) => ({ ...current, startDate: toDateKey(date) }))
+                    setShowStartDatePicker(false)
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
             <p className="mt-1 text-xs text-muted-foreground">
               Antes dessa data, a rotina não aparece nem conta nas métricas.
             </p>
