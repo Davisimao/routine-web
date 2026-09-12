@@ -9,7 +9,7 @@ interface RotinaFormProps {
   onCancel: () => void
 }
 
-const EMPTY: RotinaInput = { titulo: '', descricao: '', dias: [] }
+const EMPTY: RotinaInput = { emoji: '', titulo: '', descricao: '', dias: [] }
 
 export default function RotinaForm({ initial, onSave, onCancel }: RotinaFormProps) {
   const [form, setForm] = useState<RotinaInput>(initial ?? EMPTY)
@@ -44,6 +44,19 @@ export default function RotinaForm({ initial, onSave, onCancel }: RotinaFormProp
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Emoji</label>
+          <input
+            type="text"
+            value={form.emoji ?? ''}
+            onChange={(e) => setForm((f) => ({ ...f, emoji: e.target.value }))}
+            placeholder="Ex: 🏋️"
+            maxLength={4}
+            className="w-20 border border-gray-300 rounded-lg px-3 py-2 text-center text-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            aria-label="Emoji da rotina"
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Título <span className="text-red-500">*</span>

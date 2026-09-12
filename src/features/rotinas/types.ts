@@ -2,6 +2,7 @@ export type DiaSemana = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
 
 export interface Rotina {
   id: string
+  emoji?: string
   titulo: string
   descricao?: string
   dias: DiaSemana[]

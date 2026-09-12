@@ -56,7 +56,12 @@ export default function RotinasPage() {
 
       {editing && (
         <RotinaForm
-          initial={{ titulo: editing.titulo, descricao: editing.descricao, dias: editing.dias }}
+          initial={{
+            emoji: editing.emoji,
+            titulo: editing.titulo,
+            descricao: editing.descricao,
+            dias: editing.dias,
+          }}
           onSave={handleSave}
           onCancel={() => setEditing(null)}
         />
@@ -74,7 +79,10 @@ export default function RotinasPage() {
             <li key={rotina.id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
               <div className="flex justify-between items-start gap-2">
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-800 text-sm">{rotina.titulo}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {rotina.emoji && <span className="mr-2">{rotina.emoji}</span>}
+                    {rotina.titulo}
+                  </p>
                   {rotina.descricao && (
                     <p className="text-xs text-gray-500 mt-0.5">{rotina.descricao}</p>
                   )}

@@ -31,6 +31,7 @@ export default function TaskItem({ rotina, checked, disabled = false, onToggle }
       </span>
       <div className="flex-1 min-w-0">
         <p className={`font-medium text-sm ${checked ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+          {rotina.emoji && <span className="mr-2">{rotina.emoji}</span>}
           {rotina.titulo}
         </p>
         {rotina.descricao && (
