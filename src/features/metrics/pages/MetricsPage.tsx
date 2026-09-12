@@ -58,10 +58,10 @@ export default function MetricsPage() {
   return (
     <div>
       <div className="flex items-center gap-2 mb-1">
-        <BarChart3 size={22} className="text-indigo-600" />
-        <h1 className="text-2xl font-bold text-gray-900">Métricas</h1>
+        <BarChart3 size={22} className="text-primary" />
+        <h1 className="text-2xl font-bold text-foreground">Métricas</h1>
       </div>
-      <p className="text-gray-500 text-sm mb-5">
+      <p className="mb-5 text-sm text-muted-foreground">
         Acompanhe sua consistência geral ou por meta específica.
       </p>
 
@@ -70,8 +70,8 @@ export default function MetricsPage() {
           onClick={() => setMetaId(GERAL)}
           className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
             metaId === GERAL
-              ? 'bg-indigo-600 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
           }`}
         >
           Geral
@@ -82,8 +82,8 @@ export default function MetricsPage() {
             onClick={() => setMetaId(r.id)}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               metaId === r.id
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
             }`}
           >
             {r.titulo}
@@ -92,10 +92,10 @@ export default function MetricsPage() {
       </div>
 
       {rotinas.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
-          <BarChart3 size={48} className="mb-3 opacity-40" />
-          <p className="text-base font-medium">Sem dados ainda</p>
-          <p className="text-sm mt-1">Cadastre rotinas e marque conclusões para ver métricas.</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+          <BarChart3 size={48} className="mb-3 text-muted-foreground/40" />
+          <p className="text-base font-medium text-foreground">Sem dados ainda</p>
+          <p className="mt-1 text-sm text-muted-foreground">Cadastre rotinas e marque conclusões para ver métricas.</p>
         </div>
       ) : metaId === GERAL ? (
         <div className="space-y-4">
@@ -116,14 +116,14 @@ export default function MetricsPage() {
             />
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+          <div className="rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm">
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="p-2 rounded-lg bg-green-50 text-green-600">
+              <span className="rounded-lg bg-emerald-500/15 p-2 text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 size={18} />
               </span>
               <div>
-                <p className="text-xs font-medium text-gray-500">Metas concluídas hoje</p>
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-xs font-medium text-muted-foreground">Metas concluídas hoje</p>
+                <p className="text-lg font-bold text-foreground">
                   {geral.hoje.feitas} / {geral.hoje.total}
                 </p>
               </div>
@@ -131,7 +131,7 @@ export default function MetricsPage() {
             {geral.hoje.total > 0 ? (
               <ProgressBar done={geral.hoje.feitas} total={geral.hoje.total} />
             ) : (
-              <p className="text-sm text-gray-400">Nenhuma meta agendada para hoje.</p>
+              <p className="text-sm text-muted-foreground">Nenhuma meta agendada para hoje.</p>
             )}
           </div>
         </div>
@@ -139,7 +139,7 @@ export default function MetricsPage() {
         meta &&
         metaStats && (
           <div className="space-y-4">
-            <div className="bg-indigo-600 text-white rounded-xl px-4 py-3">
+            <div className="rounded-xl bg-primary px-4 py-3 text-primary-foreground">
               <p className="text-xs font-medium opacity-75 uppercase tracking-wide">Meta</p>
               <p className="font-semibold">{meta.titulo}</p>
               {meta.descricao && <p className="text-xs opacity-80 mt-0.5">{meta.descricao}</p>}

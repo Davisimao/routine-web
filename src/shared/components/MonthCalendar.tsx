@@ -52,20 +52,20 @@ export default function MonthCalendar({ selectedDate, onSelectDate, rotinas }: M
   const selDate = startOfDay(selectedDate)
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-3 w-72">
+    <div className="w-72 rounded-xl border border-border bg-card p-3 text-card-foreground shadow-lg">
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={() => setViewDate(new Date(year, month - 1, 1))}
-          className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+          className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
         >
           <ChevronLeft size={16} />
         </button>
-        <span className="font-semibold text-sm text-gray-800">
+        <span className="text-sm font-semibold text-foreground">
           {MONTH_NAMES[month]} {year}
         </span>
         <button
           onClick={() => setViewDate(new Date(year, month + 1, 1))}
-          className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+          className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
         >
           <ChevronRight size={16} />
         </button>
@@ -73,7 +73,7 @@ export default function MonthCalendar({ selectedDate, onSelectDate, rotinas }: M
 
       <div className="grid grid-cols-7 mb-1">
         {WEEK_DAYS.map((d) => (
-          <div key={d} className="text-center text-xs font-medium text-gray-400 py-1">
+          <div key={d} className="py-1 text-center text-xs font-medium text-muted-foreground">
             {d}
           </div>
         ))}
@@ -91,19 +91,19 @@ export default function MonthCalendar({ selectedDate, onSelectDate, rotinas }: M
               onClick={() => onSelectDate(new Date(date))}
               className={`relative flex items-center justify-center h-8 rounded-lg text-xs font-medium transition-colors ${
                 isSelected
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-primary text-primary-foreground'
                   : isToday
-                  ? 'bg-indigo-100 text-indigo-700 font-bold'
+                  ? 'bg-primary/15 text-primary font-bold'
                   : currentMonth
-                  ? 'text-gray-700 hover:bg-gray-100'
-                  : 'text-gray-300 hover:bg-gray-50'
+                  ? 'text-foreground hover:bg-secondary'
+                  : 'text-muted-foreground/50 hover:bg-secondary/50'
               }`}
             >
               {date.getDate()}
               {hasR && (
                 <span
                   className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
-                    isSelected ? 'bg-white/60' : 'bg-indigo-400'
+                    isSelected ? 'bg-primary-foreground/60' : 'bg-primary'
                   }`}
                 />
               )}

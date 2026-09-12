@@ -21,26 +21,26 @@ export default function DayNavigator({ selectedDate, diaKey, isToday, onChange }
     <div className="flex items-center gap-1">
       <button
         onClick={() => onChange(addDays(selectedDate, -1))}
-        className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+        className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
         <ChevronLeft size={20} />
       </button>
 
       <div className="px-1">
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold text-gray-900">{DIA_LABEL_LONGO[diaKey]}</h1>
+          <h1 className="text-xl font-bold text-foreground">{DIA_LABEL_LONGO[diaKey]}</h1>
           {isToday && (
-            <span className="bg-indigo-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+            <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
               Hoje
             </span>
           )}
         </div>
-        <p className="text-gray-500 text-sm mt-0.5">{dateLabel}</p>
+        <p className="mt-0.5 text-sm text-muted-foreground">{dateLabel}</p>
       </div>
 
       <button
         onClick={() => onChange(addDays(selectedDate, 1))}
-        className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+        className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
         <ChevronRight size={20} />
       </button>

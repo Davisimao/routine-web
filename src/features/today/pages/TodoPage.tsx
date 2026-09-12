@@ -43,7 +43,7 @@ export default function TodoPage() {
 
   return (
     <div>
-      <div className="bg-indigo-600 text-white rounded-xl px-4 py-3 mb-5 flex items-center gap-3">
+      <div className="mb-5 flex items-center gap-3 rounded-xl bg-primary px-4 py-3 text-primary-foreground">
         <CalendarDays size={20} className="flex-shrink-0 opacity-80" />
         <div>
           <p className="text-xs font-medium opacity-75 uppercase tracking-wide">
@@ -60,7 +60,7 @@ export default function TodoPage() {
         </div>
       </div>
 
-      <div className="flex items-start justify-between mb-6">
+      <div className="mb-6 flex items-start justify-between">
         <DayNavigator
           selectedDate={selectedDate}
           diaKey={diaKey}
@@ -73,8 +73,8 @@ export default function TodoPage() {
             onClick={() => setShowCalendar((v) => !v)}
             className={`p-2 rounded-lg transition-colors ${
               showCalendar
-                ? 'bg-indigo-100 text-indigo-600'
-                : 'text-gray-400 hover:text-indigo-600 hover:bg-indigo-50'
+                ? 'bg-primary/15 text-primary'
+                : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
             }`}
             title="Abrir calendário"
           >
@@ -96,10 +96,10 @@ export default function TodoPage() {
       {tarefasDia.length > 0 && <ProgressBar done={done} total={tarefasDia.length} />}
 
       {tarefasDia.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
-          <CalendarDays size={48} className="mb-3 opacity-40" />
-          <p className="text-base font-medium">Dia livre!</p>
-          <p className="text-sm mt-1">
+        <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+          <CalendarDays size={48} className="mb-3 text-muted-foreground/40" />
+          <p className="text-base font-medium text-foreground">Dia livre!</p>
+          <p className="mt-1 text-sm text-muted-foreground">
             Nenhuma rotina cadastrada para {isToday ? 'hoje' : 'este dia'}.
           </p>
         </div>
@@ -118,8 +118,8 @@ export default function TodoPage() {
       )}
 
       {done === tarefasDia.length && tarefasDia.length > 0 && (
-        <div className="mt-6 bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-          <p className="text-green-700 font-semibold text-sm">🎉 Todas as tarefas concluídas!</p>
+        <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-center">
+          <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">🎉 Todas as tarefas concluídas!</p>
         </div>
       )}
     </div>
