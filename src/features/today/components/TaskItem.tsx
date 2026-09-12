@@ -4,14 +4,19 @@ import type { Rotina } from '@/features/rotinas/types'
 interface TaskItemProps {
   rotina: Rotina
   checked: boolean
+  disabled?: boolean
   onToggle: (id: string) => void
 }
 
-export default function TaskItem({ rotina, checked, onToggle }: TaskItemProps) {
+export default function TaskItem({ rotina, checked, disabled = false, onToggle }: TaskItemProps) {
   return (
     <li
-      onClick={() => onToggle(rotina.id)}
-      className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none transition-all ${
+      onClick={() => {
+        if (!disabled) onToggle(rotina.id)
+      }}
+      className={`flex items-start gap-3 p-4 rounded-xl border select-none transition-all ${
+        disabled ? 'bg-gray-50 border-gray-200 cursor-not-allowed opacity-60' : 'cursor-pointer'
+      } ${
         checked
           ? 'bg-indigo-50 border-indigo-200'
           : 'bg-white border-gray-200 hover:border-indigo-300 hover:shadow-sm'
@@ -33,6 +38,7 @@ export default function TaskItem({ rotina, checked, onToggle }: TaskItemProps) {
             {rotina.descricao}
           </p>
         )}
+        {disabled && <span className="text-xs text-gray-400">Disponível hoje</span>}
       </div>
     </li>
   )

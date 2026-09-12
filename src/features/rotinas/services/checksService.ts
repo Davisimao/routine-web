@@ -6,6 +6,7 @@ import {
   type Unsubscribe,
 } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { fromDateKey, isFutureDay } from '@/lib/date'
 import type { ChecksPorDia } from '../types'
 
 const CHECKS_COL = 'checks'
@@ -25,5 +26,6 @@ export async function setCheck(
   rotinaId: string,
   concluida: boolean
 ): Promise<void> {
+  if (isFutureDay(fromDateKey(dateKey))) return
   await setDoc(doc(db, CHECKS_COL, dateKey), { [rotinaId]: concluida }, { merge: true })
 }

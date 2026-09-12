@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import { useRotinas } from '@/features/rotinas/context/useRotinas'
-import { startOfDay, toDateKey, weekdayKey, isSameDay } from '@/lib/date'
+import { startOfDay, toDateKey, weekdayKey, isSameDay, isFutureDay } from '@/lib/date'
 import ProgressBar from '@/shared/components/ProgressBar'
 import MonthCalendar from '@/shared/components/MonthCalendar'
 import DayNavigator from '../components/DayNavigator'
@@ -15,6 +15,7 @@ export default function TodoPage() {
   const today = startOfDay(new Date())
   const diaKey = weekdayKey(selectedDate)
   const isToday = isSameDay(selectedDate, today)
+  const isFuture = isFutureDay(selectedDate)
   const dateKey = toDateKey(selectedDate)
 
   useEffect(() => {
@@ -109,6 +110,7 @@ export default function TodoPage() {
               key={rotina.id}
               rotina={rotina}
               checked={Boolean(checksHoje[rotina.id])}
+              disabled={isFuture}
               onToggle={(id) => void toggleCheck(dateKey, id)}
             />
           ))}

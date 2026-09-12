@@ -16,6 +16,10 @@ export function isSameDay(a: Date, b: Date): boolean {
   )
 }
 
+export function isFutureDay(date: Date): boolean {
+  return startOfDay(date).getTime() > startOfDay(new Date()).getTime()
+}
+
 export function addDays(date: Date, amount: number): Date {
   const copy = new Date(date)
   copy.setDate(copy.getDate() + amount)
