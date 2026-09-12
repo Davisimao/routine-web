@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import { useRotinas } from '@/features/rotinas/context/useRotinas'
 import { startOfDay, toDateKey, weekdayKey, isSameDay, isFutureDay } from '@/lib/date'
+import { isScheduled } from '@/features/metrics/services/metricsCalculator'
 import ProgressBar from '@/shared/components/ProgressBar'
 import MonthCalendar from '@/shared/components/MonthCalendar'
 import DayNavigator from '../components/DayNavigator'
@@ -29,8 +30,8 @@ export default function TodoPage() {
   }, [])
 
   const tarefasDia = useMemo(
-    () => rotinas.filter((r) => r.dias.includes(diaKey)),
-    [rotinas, diaKey]
+    () => rotinas.filter((r) => isScheduled(r, selectedDate)),
+    [rotinas, selectedDate]
   )
 
   const checksHoje = checksPorDia[dateKey] ?? {}

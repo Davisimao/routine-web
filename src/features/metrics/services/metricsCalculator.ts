@@ -6,8 +6,13 @@ export interface ProgressoHoje {
   total: number
 }
 
+function rotinaCriadaAte(rotina: Rotina, date: Date): boolean {
+  if (rotina.createdAt === undefined) return true
+  return startOfDay(new Date(rotina.createdAt)) <= startOfDay(date)
+}
+
 export function isScheduled(rotina: Rotina, date: Date): boolean {
-  return rotina.dias.includes(weekdayKey(date))
+  return rotinaCriadaAte(rotina, date) && rotina.dias.includes(weekdayKey(date))
 }
 
 function isChecked(checks: ChecksPorDia, key: string, rotinaId: string): boolean {
@@ -142,7 +147,7 @@ export function melhorSequencia(rotina: Rotina, checks: ChecksPorDia): number {
 export function volumeTotal(rotina: Rotina, checks: ChecksPorDia): number {
   let count = 0
   for (const key of Object.keys(checks)) {
-    if (isChecked(checks, key, rotina.id)) count++
+    if (isScheduled(rotina, fromDateKey(key)) && isChecked(checks, key, rotina.id)) count++
   }
   return count
 }
@@ -154,7 +159,13 @@ export function diasSucessoAno(
 ): number {
   let count = 0
   for (const key of Object.keys(checks)) {
-    if (key.startsWith(`${ano}-`) && isChecked(checks, key, rotina.id)) count++
+    if (
+      key.startsWith(`${ano}-`) &&
+      isScheduled(rotina, fromDateKey(key)) &&
+      isChecked(checks, key, rotina.id)
+    ) {
+      count++
+    }
   }
   return count
 }
@@ -174,7 +185,9 @@ function diasAgendadosNoIntervalo(rotina: Rotina, inicio: Date, fim: Date): numb
 export function mediaDiaria(rotina: Rotina, checks: ChecksPorDia): number {
   const keys = checkedDateKeys(checks)
   if (keys.length === 0) return 0
-  const inicio = fromDateKey(keys[0])
+  const inicio = rotina.createdAt
+    ? startOfDay(new Date(Math.max(rotina.createdAt, fromDateKey(keys[0]).getTime())))
+    : fromDateKey(keys[0])
   const fim = startOfDay(new Date())
   const agendados = diasAgendadosNoIntervalo(rotina, inicio, fim)
   if (agendados === 0) return 0
