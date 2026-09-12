@@ -7,6 +7,7 @@ import {
   type Unsubscribe,
 } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { toDateKey } from '@/lib/date'
 import type { Rotina, RotinaInput } from '../types'
 
 const ROTINAS_COL = 'rotinas'
@@ -26,7 +27,11 @@ export function subscribeRotinas(onChange: (rotinas: Rotina[]) => void): Unsubsc
 
 export async function addRotina(input: RotinaInput): Promise<void> {
   const id = Date.now().toString()
-  await setDoc(doc(db, ROTINAS_COL, id), { ...input, createdAt: Date.now() })
+  await setDoc(doc(db, ROTINAS_COL, id), {
+    ...input,
+    startDate: input.startDate ?? toDateKey(new Date()),
+    createdAt: Date.now(),
+  })
 }
 
 export async function updateRotina(id: string, patch: Partial<RotinaInput>): Promise<void> {

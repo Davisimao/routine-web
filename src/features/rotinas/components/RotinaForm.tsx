@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import EmojiPicker, { type EmojiClickData } from 'emoji-picker-react'
 import { Smile, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { toDateKey } from '@/lib/date'
 import { DIAS } from '../constants'
 import type { DiaSemana, RotinaInput } from '../types'
 
@@ -15,11 +16,13 @@ interface RotinaFormProps {
 const EMPTY: RotinaInput = { emoji: '', titulo: '', descricao: '', dias: [] }
 
 export default function RotinaForm({ initial, embedded = false, onSave, onCancel }: RotinaFormProps) {
-  const [form, setForm] = useState<RotinaInput>(initial ?? EMPTY)
+  const [form, setForm] = useState<RotinaInput>(
+    initial ?? { ...EMPTY, startDate: toDateKey(new Date()) }
+  )
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
   useEffect(() => {
-    setForm(initial ?? EMPTY)
+    setForm(initial ?? { ...EMPTY, startDate: toDateKey(new Date()) })
   }, [initial])
 
   function toggleDia(dia: DiaSemana) {
@@ -50,6 +53,25 @@ export default function RotinaForm({ initial, embedded = false, onSave, onCancel
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!initial && (
+          <div>
+            <label className="mb-1 block text-sm font-medium text-foreground" htmlFor="start-date">
+              A rotina começa a valer em
+            </label>
+            <input
+              id="start-date"
+              type="date"
+              value={form.startDate ?? toDateKey(new Date())}
+              onChange={(e) => setForm((current) => ({ ...current, startDate: e.target.value }))}
+              className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              required
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Antes dessa data, a rotina não aparece nem conta nas métricas.
+            </p>
+          </div>
+        )}
+
         <div>
           <label className="mb-1 block text-sm font-medium text-foreground">Emoji</label>
           <div className="relative inline-block">

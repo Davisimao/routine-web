@@ -6,9 +6,16 @@ export interface ProgressoHoje {
   total: number
 }
 
+function routineStartDate(rotina: Rotina): Date | null {
+  if (rotina.startDate) return fromDateKey(rotina.startDate)
+  if (rotina.createdAt === undefined) return null
+  return startOfDay(new Date(rotina.createdAt))
+}
+
 function rotinaCriadaAte(rotina: Rotina, date: Date): boolean {
-  if (rotina.createdAt === undefined) return true
-  return startOfDay(new Date(rotina.createdAt)) <= startOfDay(date)
+  const startDate = routineStartDate(rotina)
+
+  return startDate === null || startDate <= startOfDay(date)
 }
 
 export function isScheduled(rotina: Rotina, date: Date): boolean {
@@ -185,9 +192,9 @@ function diasAgendadosNoIntervalo(rotina: Rotina, inicio: Date, fim: Date): numb
 export function mediaDiaria(rotina: Rotina, checks: ChecksPorDia): number {
   const keys = checkedDateKeys(checks)
   if (keys.length === 0) return 0
-  const inicio = rotina.createdAt
-    ? startOfDay(new Date(Math.max(rotina.createdAt, fromDateKey(keys[0]).getTime())))
-    : fromDateKey(keys[0])
+  const firstCheck = fromDateKey(keys[0])
+  const routineStart = routineStartDate(rotina)
+  const inicio = routineStart && routineStart > firstCheck ? routineStart : firstCheck
   const fim = startOfDay(new Date())
   const agendados = diasAgendadosNoIntervalo(rotina, inicio, fim)
   if (agendados === 0) return 0

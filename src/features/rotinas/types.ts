@@ -6,6 +6,7 @@ export interface Rotina {
   titulo: string
   descricao?: string
   dias: DiaSemana[]
+  startDate?: string
   createdAt?: number
 }
 
